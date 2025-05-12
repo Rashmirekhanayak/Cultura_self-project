@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head><title>Feedback - Cultura</title>
+<style>
+    body {
+        background: url('{{ url_for('static', filename='images/feedback.jpg') }}') no-repeat center center fixed;
+        background-size: cover;
+        min-height: 100vh;
+      }
+      .navbar {
+        background: rgba(44, 62, 80, 0.8);
+        backdrop-filter: blur(10px);
+        padding: 15px 30px;
+        display: flex;
+        height: 60px;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .navbar .logo {
+        font-weight: bold;
+        font-size: 40px;
+        color: white;
+      }
+      .navbar nav a {
+        color: white;
+        text-decoration: none;
+        margin-left: 20px;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 30px;
+        transition: background 0.3s ease;
+      }
+      .navbar nav a:hover, .navbar nav a.active {
+        background: rgba(255,255,255,0.2);
+      }
+
+    </style>
+</head>
+<body >
+
+<header class="navbar">
+    <div class="logo">🌏 Cultura</div>
+    <nav>
+      <a href="{{ url_for('home') }}" class="{% if active_page == 'home' %}active{% endif %}">Home</a>
+      <a href="{{ url_for('dashboard') }}" class="{% if active_page == 'dashboard' %}active{% endif %}">Ask AI</a>
+      <a href="{{ url_for('submissions') }}" class="{% if active_page == 'submissions' %}active{% endif %}">Submissions</a>
+      <a href="{{ url_for('favorites') }}" class="{% if active_page == 'favorites' %}active{% endif %}">Favorites</a>
+      <a href="{{ url_for('feedback') }}" class="{% if active_page == 'feedback' %}active{% endif %}">Feedback</a>
+      <a href="{{ url_for('wisdom_feed') }}" class="{% if active_page == 'wisdom_feed' %}active{% endif %}">Wisdom Feed</a>
+    </nav>
+  </header>
+  
+<div style="padding: 60px 20px; display: flex; justify-content: center; align-items: center;">
+  <div style="background: rgba(255, 255, 255, 0.56); backdrop-filter: blur(5px); padding: 40px; max-width: 600px; border-radius: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.15);">
+
+    <h1 style="text-align: center; color: #2c3e50;">💬 Feedback</h1>
+    <p style="text-align: center; font-size: 30px; color: #555; margin-bottom: 30px;">
+      We'd love to hear your thoughts and suggestions to make Cultura better.
+    </p>
+
+    <form method="POST" action="/submit-feedback" style="display: flex; flex-direction: column; gap: 20px;">
+      <input type="text" name="name" placeholder="Your name" required style="padding: 12px; font-size: 20px; border-radius: 8px; border: 1px solid #ccc;">
+      
+      <textarea name="feedback" rows="5" placeholder="Write your feedback..." required style="padding: 12px;font-size: 20px; border-radius: 8px; border: 1px solid #ccc;"></textarea>
+
+      <select name="rating" required style="padding: 10px; font-size: 20px; border-radius: 8px; border: 1px solid #ccc;">
+        <option value="">Rate your experience</option>
+        <option value="🌟">🌟</option>
+        <option value="🌟🌟">🌟🌟</option>
+        <option value="🌟🌟🌟">🌟🌟🌟</option>
+        <option value="🌟🌟🌟🌟">🌟🌟🌟🌟</option>
+        <option value="🌟🌟🌟🌟🌟">🌟🌟🌟🌟🌟</option>
+      </select>
+
+      <button type="submit" style="padding: 12px; background-color: #2ecc71; color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 20px; cursor: pointer;">
+        Submit Feedback
+      </button>
+    </form>
+
+  </div>
+</div>
+</body>
+</html>

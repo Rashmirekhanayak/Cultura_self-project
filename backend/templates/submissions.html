@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Share Your Wisdom - Cultura</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: url('{{ url_for('static', filename='images/wisdom_pic.avif') }}') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.33);
+      backdrop-filter: blur(10px);
+      max-width: 700px;
+      margin: 80px auto;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #2c3e50;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    input, textarea, button {
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #2ecc71;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #27ae60;
+    }
+    .navbar {
+        background: rgba(44, 62, 80, 0.8);
+        backdrop-filter: blur(10px);
+        padding: 15px 30px;
+        display: flex;
+        height: 60px;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .navbar .logo {
+        font-weight: bold;
+        font-size: 40px;
+        color: white;
+      }
+      .navbar nav a {
+        color: white;
+        text-decoration: none;
+        margin-left: 20px;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 30px;
+        transition: background 0.3s ease;
+      }
+      .navbar nav a:hover, .navbar nav a.active {
+        background: rgba(255,255,255,0.2);
+      }
+
+
+  </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">🌏 Cultura</div>
+        <nav>
+          <a href="{{ url_for('home') }}" class="{% if active_page == 'home' %}active{% endif %}">Home</a>
+          <a href="{{ url_for('dashboard') }}" class="{% if active_page == 'dashboard' %}active{% endif %}">Ask AI</a>
+          <a href="{{ url_for('submissions') }}" class="{% if active_page == 'submissions' %}active{% endif %}">Submissions</a>
+          <a href="{{ url_for('favorites') }}" class="{% if active_page == 'favorites' %}active{% endif %}">Favorites</a>
+          <a href="{{ url_for('feedback') }}" class="{% if active_page == 'feedback' %}active{% endif %}">Feedback</a>
+          <a href="{{ url_for('wisdom_feed') }}" class="{% if active_page == 'wisdom_feed' %}active{% endif %}">Wisdom Feed</a>
+        </nav>
+      </header>
+      
+  <div class="container">
+    <h1>🌿 Share Your Cultural Wisdom</h1>
+
+    <form method="POST" action="/submit-wisdom">
+      <input type="text" name="country" placeholder="Country / Culture" required>
+
+      <textarea name="problem" placeholder="What problem or challenge did you face?" rows="3" required></textarea>
+
+      <textarea name="solution" placeholder="How did your culture help you overcome it?" rows="4" required></textarea>
+
+      <textarea name="advice" placeholder="Any ancient wisdom, philosophy, or quote you'd like to share?" rows="3"></textarea>
+
+      <button type="submit">Submit Wisdom</button>
+    </form>
+    <hr style="margin: 40px 0;">
+
+<h2 style="text-align: center;">🗂 Shared Cultural Wisdoms</h2>
+
+{% for w in wisdoms %}
+  <div style="background: rgba(255,255,255,0.9); padding: 20px; margin-top: 20px; border-radius: 10px;">
+    <h3>{{ w[1] }}</h3>
+    <p><strong>Problem:</strong> {{ w[2] }}</p>
+    <p><strong>Solution:</strong> {{ w[3] }}</p>
+    {% if w[4] %}
+    <p><strong>Advice:</strong> "{{ w[4] }}"</p>
+    {% endif %}
+    <p style="font-size: 12px; color: gray;">Submitted on {{ w[5] }}</p>
+
+    {% if w[0] in favorites %}
+      <form action="{{ url_for('unsave_favorite', id=w[0]) }}" method="POST" style="margin-top: 10px;">
+        <button type="submit" style="background: crimson; color: white; border: none; padding: 5px 15px; border-radius: 5px;">💔 Unsave</button>
+      </form>
+    {% else %}
+      <form action="{{ url_for('save_favorite', id=w[0]) }}" method="POST" style="margin-top: 10px;">
+        <button type="submit" style="background: #2ecc71; color: white; border: none; padding: 5px 15px; border-radius: 5px;">❤️ Save</button>
+      </form>
+    {% endif %}
+  </div>
+{% endfor %}
+
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cultura Wisdom Feed</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: url('{{ url_for('static', filename='images/wisdom_feed.avif') }}') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.21);
+      backdrop-filter: blur(10px);
+      max-width: 1000px;
+      margin: 60px auto;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #2c3e50;
+      font-size: 40px;
+    }
+    .wisdom-card {
+      background: white;
+      margin-bottom: 20px;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .wisdom-card h2 {
+      margin-top: 0;
+      color:rgba(44, 62, 80, 0.95);
+    }
+    .wisdom-card p {
+      margin: 8px 0;
+      font-size: 16px;
+      color: #555;
+    }
+    .timestamp {
+      font-size: 12px;
+      color: gray;
+      margin-top: 10px;
+    }
+    .navbar {
+        background: rgba(44, 62, 80, 0.8);
+        backdrop-filter: blur(10px);
+        padding: 15px 30px;
+        display: flex;
+        height: 60px;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .navbar .logo {
+        font-weight: bold;
+        font-size: 40px;
+        color: white;
+      }
+      .navbar nav a {
+        color: white;
+        text-decoration: none;
+        margin-left: 20px;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 30px;
+        transition: background 0.3s ease;
+      }
+      .navbar nav a:hover, .navbar nav a.active {
+        background: rgba(255,255,255,0.2);
+      }
+
+  </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">🌏 Cultura</div>
+        <nav>
+          <a href="{{ url_for('home') }}" class="{% if active_page == 'home' %}active{% endif %}">Home</a>
+          <a href="{{ url_for('dashboard') }}" class="{% if active_page == 'dashboard' %}active{% endif %}">Ask AI</a>
+          <a href="{{ url_for('submissions') }}" class="{% if active_page == 'submissions' %}active{% endif %}">Submissions</a>
+          <a href="{{ url_for('favorites') }}" class="{% if active_page == 'favorites' %}active{% endif %}">Favorites</a>
+          <a href="{{ url_for('feedback') }}" class="{% if active_page == 'feedback' %}active{% endif %}">Feedback</a>
+          <a href="{{ url_for('wisdom_feed') }}" class="{% if active_page == 'wisdom_feed' %}active{% endif %}">Wisdom Feed</a>
+        </nav>
+      </header>
+      
+  <div class="container">
+    <h1>🌍 Wisdom Feed</h1>
+
+    {% for w in wisdoms %}
+      <div class="wisdom-card">
+        <h2>🌿 {{ w[0] }}</h2>
+        <p><strong>Problem:</strong> {{ w[1] }}</p>
+        <p><strong>Cultural Solution:</strong> {{ w[2] }}</p>
+        {% if w[3] %}
+        <p><strong>Ancient Advice:</strong> "{{ w[3] }}"</p>
+        {% endif %}
+        <p class="timestamp">Submitted on {{ w[4] }}</p>
+      </div>
+    {% endfor %}
+  </div>
+</body>
+</html>
