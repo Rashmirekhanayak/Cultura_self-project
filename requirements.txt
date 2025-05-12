@@ -1,4 +1,4 @@
 flask
 transformers
 huggingface_hub
-hugging face token = "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"
+hugging face token = "place_holder"
